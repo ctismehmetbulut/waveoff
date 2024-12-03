@@ -1,0 +1,2 @@
+WIDTH = 256
+HEIGHT = 144

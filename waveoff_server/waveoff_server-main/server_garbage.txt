@@ -1,0 +1,73 @@
+def process_image_ws(ws):
+    print("RAHMAN - WebSocket connection established.")
+    while True:
+        try:
+            # Receive the Base64-encoded message
+            message = ws.receive()
+            #print("RAHMANIA - Received message:", message)
+            if not message:
+                break
+
+            output_folder = "data"
+            if not os.path.exists(output_folder):
+                os.makedirs(output_folder)
+
+            # Decode the Base64 data
+            byte_data = base64.b64decode(message)
+            print("RAHMANIA - Byte data length:", len(byte_data))
+
+            # Save the image to a file
+            image_path = base64_to_image(byte_data, output_folder, WIDTH, HEIGHT)
+            print(f"RAHMANIA - Image written to: {image_path}")
+
+            filename = f"data/{int(time.time() * 1000)}.txt"
+            # Save the message into a text file with Unix millisecond timestamp
+            with open(filename, "w") as file:
+                file.write(message)
+
+            print(f"RAHMANIA - Message saved to file: {filename}")
+
+
+            # Call the process_image function
+            #result = kpc.process_image(byte_data, WIDTH, HEIGHT)
+
+            # Send the result back to the client
+            #ws.send(json.dumps(result))
+
+        except Exception as e:
+            # Handle errors gracefully
+            print("RAHMANIA - Error:", str(e))
+            ws.send(json.dumps({"error": f"Processing failed: {str(e)}"}))
+
+=============================================================
+
+@sock.route('/process_image_old')
+def process_image_ws2(ws):
+    while True:
+        # Step 1: Receive JSON message containing byte_data, width, and height
+        message = ws.receive()
+        if not message:
+            break
+
+        try:
+            # Parse incoming JSON message
+            data = json.loads(message)
+            byte_data = bytes(data["byte_data"])  # Convert to bytes
+            print("RAHMANIA- byte_data: ", byte_data)
+            width = data["width"]
+            height = data["height"]
+        except (KeyError, ValueError) as e:
+            # Send error response for invalid input format
+            ws.send(json.dumps({"error": f"Invalid input format: {str(e)}"}))
+            continue
+
+        # Step 2: Call process_image with the received parameters
+        try:
+            result = kpc.process_image(byte_data, width, height)
+        except Exception as e:
+            # Handle processing errors
+            ws.send(json.dumps({"error": f"Processing failed: {str(e)}"}))
+            continue
+
+        # Step 3: Send the result back to the client as JSON
+        ws.send(json.dumps(result))

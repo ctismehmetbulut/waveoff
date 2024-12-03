@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">demo</string>
+	<string name="accessibility_service_description">Service to reject incoming phone calls.</string>
+</resources>
