@@ -1,5 +1,5 @@
 # WaveOff Server
-WaveOff Server is a project designed to integrate Python and Kotlin functionalities, featuring gesture recognition, server management, and MediaPipe utilities. The project also incorporates a full-stack engineering workflow, providing seamless interaction between a mobile application and server-side processing for gesture-based call management.
+WaveOff Server is a project designed to integrate Python and **Kotlin (Android application)** functionalities, featuring gesture recognition, server management, and MediaPipe utilities. The project also incorporates a full-stack engineering workflow, providing seamless interaction between a mobile application and server-side processing for gesture-based call management.
 
 ## Overview
 This project enables advanced gesture recognition and real-time processing for Android applications. Leveraging the CameraX API, Flask server, and Web Socket communication, the system processes gestures to automate call management actions such as accepting or rejecting incoming calls. It also explores experimental Kotlin-Python interoperability for further extensibility.
